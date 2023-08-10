@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Todo } from '../../schemas/todos.schema';
+import { ParamIdDto } from '../../shared/dto/param-id.dto';
+import { ApiGetTodosResponse, ApiFindOneTodoResponse, ApiFindTodoResponse } from '../../swagger/todos/get-todos.response.ts';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoService } from './todos.service';
@@ -26,19 +28,22 @@ export class TodoController {
     this.todoService = todoService;
   }
 
-  @Get()
-  async index(): Promise<Todo[]> {
+  @ApiGetTodosResponse()
+  @Get('/')
+  async GetAllTodo(): Promise<Todo[]> {
     const response = await this.todoService.findAll();
     return response;
   }
 
-  @Get(':id')
-  async find(@Param() param: ParamIdDto): Promise<Todo> {
-    const response = await this.todoService.findOne(id);
+  @ApiFindOneTodoResponse()
+  @Get('/:id/by-id')
+  async getTodoById(@Param() param: ParamIdDto): Promise<Todo> {
+    const response = await this.todoService.findOne(param.id);
     return response;
   }
 
-  @Post()
+  @ApiFindTodoResponse()
+  @Post('/')
   async create(@Body() body: CreateTodoDto): Promise<Todo> {
     const response = await this.todoService.create(body);
     return response;
