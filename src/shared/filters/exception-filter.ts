@@ -36,7 +36,9 @@ export class CustomHttpExceptionFilter implements ExceptionFilter {
       message = exception.toString();
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (Array.isArray(exception?.response?.message)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       message = exception.response.message.join(' & ');
     }
 

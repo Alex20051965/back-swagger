@@ -16,33 +16,33 @@ export class TodoService {
     this.todosModel = todosModel;
   }
 
-  async findAll(): Promise<Todo[]> {
-    const response = await this.todosModel.find();
+  async createTodo(body:CreateTodoDto, id: string): Promise<Todo> {
+    const response = await this.todosModel.create({ asignee: id, ...body });
     return response;
   }
 
-  async findOne(id: string): Promise<Todo> {
-    const response = await this.todosModel.findById(id);
+  async getAllTodo(id: string): Promise<Todo[]> {
+    const response = await this.todosModel.find({ asignee: id });
+    return response;
+  }
+
+  async getTodoById(_id: string, userId: string): Promise<Todo> {
+    const response = await this.todosModel.findOne({ _id, asignee: userId });
     if (!response) {
       throw new NotFoundException('Todo was not found');
     }
     return response;
   }
 
-  async create(body: CreateTodoDto): Promise<Todo> {
-    const response = await this.todosModel.create(body);
-    return response;
-  }
-
-  async update(id: string, updateTodoDto: UpdateTodoDto): Promise<Todo> {
-    const response = await this.todosModel.findByIdAndUpdate(id, updateTodoDto);
-    if (!response) {
+  async updateTodo(body: UpdateTodoDto, userId: string): Promise<Todo> {
+    const todo = await this.todosModel.findOneAndUpdate({ _id: body.id, asignee: userId }, body);
+    if (!todo) {
       throw new NotFoundException('Todo was not found');
     }
-    return response;
+    return todo;
   }
 
-  async delete(id: string): Promise<void> {
+  async deleteTodo(id: string): Promise<void> {
     await this.todosModel.findByIdAndDelete(id);
   }
 
