@@ -14,7 +14,7 @@ import { ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Todo } from '../../schemas/todos.schema';
 import { GetUserId } from '../../shared/decorators/extract-user-id.decorator';
 import { ParamIdDto } from '../../shared/dto/param-id.dto';
-import { ApiGetTodosResponse, ApiFindOneTodoResponse, ApiFindTodoResponse } from '../../swagger/todos/get-todos.response.ts';
+import { ApiGetTodosResponse, ApiFindOneTodoResponse, ApiFindTodoResponse } from '../../swagger/todos/todos.response';
 import { AuthGuard } from '../authorization/guard/authorization.guard';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';

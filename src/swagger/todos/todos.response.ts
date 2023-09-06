@@ -1,12 +1,26 @@
 import { applyDecorators, HttpStatus } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
-import { TodoData } from '../dto/get-profile-response';
+import { TodoData } from '../dto/todo-response.dto';
 import { UnavailableService } from '../dto/unavailable-service.response';
 
-export const ApiCreateUserResponse = (): MethodDecorator => applyDecorators(
+export const ApiGetTodosResponse = (): MethodDecorator => applyDecorators(
   ApiResponse({
     status: HttpStatus.OK,
-    description: 'Profile was created',
+    description: 'Todo was created',
+    type: TodoData,
+    isArray: true,
+  }),
+  ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Service unavailable',
+    type: UnavailableService,
+  }),
+);
+
+export const ApiFindOneTodoResponse = (): MethodDecorator => applyDecorators(
+  ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Retrieve Todo',
     type: TodoData,
   }),
   ApiResponse({
@@ -16,23 +30,10 @@ export const ApiCreateUserResponse = (): MethodDecorator => applyDecorators(
   }),
 );
 
-export const ApiFindOneProfileResponse = (): MethodDecorator => applyDecorators(
+export const ApiFindTodoResponse = (): MethodDecorator => applyDecorators(
   ApiResponse({
     status: HttpStatus.OK,
-    description: 'Retrieve profile',
-    type: TodoData,
-  }),
-  ApiResponse({
-    status: HttpStatus.BAD_REQUEST,
-    description: 'Service unavailable',
-    type: UnavailableService,
-  }),
-);
-
-export const ApiFindProfileResponse = (): MethodDecorator => applyDecorators(
-  ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Retrieve profiles',
+    description: 'Retrieve Todo',
     type: Array<TodoData>,
   }),
   ApiResponse({
@@ -42,10 +43,10 @@ export const ApiFindProfileResponse = (): MethodDecorator => applyDecorators(
   }),
 );
 
-export const ApiUpdateProfileResponse = (): MethodDecorator => applyDecorators(
+export const ApiUpdateTodoResponse = (): MethodDecorator => applyDecorators(
   ApiResponse({
     status: HttpStatus.OK,
-    description: 'Retrieve profiles',
+    description: 'Retrieve Todo',
     type: TodoData,
   }),
   ApiResponse({

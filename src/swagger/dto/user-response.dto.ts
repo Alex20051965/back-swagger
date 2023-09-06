@@ -1,7 +1,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 
-export class TodoData {
+export class User {
 
   @ApiProperty()
   public _id!: string;

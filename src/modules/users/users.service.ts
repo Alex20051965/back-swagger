@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
-import { IUpdateUserRequest, IUserTodoRequest } from '../../models/request/users.requests';
+import { IGetUsersRequest, IUpdateUserRequest, IUserTodoRequest } from '../../models/request/users.requests';
+import { IGetUsersPaginatedResponse } from '../../models/responses/user.respons';
 import { User, UserDocument } from '../../schemas/users.schema';
 
 @Injectable()
@@ -16,9 +17,11 @@ export class UserService {
     this.usersModel = usersModel;
   }
 
-  async getAllUsers(): Promise<User[]> {
-    const response = await this.usersModel.find().populate('todos');
-    return response;
+  async getUsersPaginated(query: IGetUsersRequest): Promise<IGetUsersPaginatedResponse> {
+    const { page = 0, limit = 10 } = query;
+    const response = await this.usersModel.find().skip(page * limit).limit(limit).populate('todos');
+    const count = await this.usersModel.count();
+    return { response, count };
   }
 
   async getUserById(id: string): Promise<User> {

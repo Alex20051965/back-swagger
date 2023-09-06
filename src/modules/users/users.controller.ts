@@ -4,15 +4,16 @@ import {
   Delete,
   Get,
   Param,
+  Query,
   Put,
   UseGuards,
-  UsePipes,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { IGetUsersPaginatedResponse } from '../../models/responses/user.respons';
 import { User } from '../../schemas/users.schema';
 import { ParamIdDto } from '../../shared/dto/param-id.dto';
 import { AuthGuard } from '../authorization/guard/authorization.guard';
+import { GetUsersDto } from './dto/get-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserTodoDto } from './dto/users-todos.dto';
 import { UserService } from './users.service';
@@ -20,7 +21,6 @@ import { UserService } from './users.service';
 @ApiTags('USERS')
 @ApiSecurity('JWT')
 @UseGuards(AuthGuard)
-@UsePipes(new ValidationPipe())
 @Controller('users')
 export class UserController {
 
@@ -31,9 +31,9 @@ export class UserController {
   }
 
 
-  @Get('/')
-  async getAllUsers(): Promise<User[]> {
-    const response = await this.userService.getAllUsers();
+  @Get('/paginated')
+  async getUsersPaginated(@Query() query: GetUsersDto): Promise<IGetUsersPaginatedResponse> {
+    const response = await this.userService.getUsersPaginated(query);
     return response;
   }
 

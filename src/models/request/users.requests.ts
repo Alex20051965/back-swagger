@@ -1,4 +1,4 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose';
 
 export interface IUserTodoRequest {
   userId: string;
@@ -11,8 +11,7 @@ export interface IUpdateUserRequest {
   password?:string;
 }
 
-export interface IQueryRequest {
-  name?: string;
-  email?: string;
-  password?: string;
+export interface IGetUsersRequest {
+  page: number;
+  limit: number;
 }
